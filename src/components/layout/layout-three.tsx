@@ -16,7 +16,7 @@ const Layout: React.FC = ({ children }) => {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {highlightedBar !== 'true' && (
+      {/* {highlightedBar !== 'true' && (
         <HighlightedBar onClose={() => setHighlightedBar('true')}>
           <div className="flex items-center">
             <div className="hidden sm:flex shrink-0 items-center justify-center bg-brand-light w-9 h-9 rounded-full ltr:mr-2.5 rtl:ml-2.5">
@@ -35,7 +35,7 @@ const Layout: React.FC = ({ children }) => {
           </div>
           <Countdown date={Date.now() + 4000000 * 71} />
         </HighlightedBar>
-      )}
+      )} */}
       {/* End of highlighted bar  */}
 
       <Header />

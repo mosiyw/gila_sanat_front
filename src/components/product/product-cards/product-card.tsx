@@ -9,7 +9,9 @@ import { useCart } from '@contexts/cart/cart.context';
 // import { AddToCart } from '@components/product/add-to-cart';
 import { useTranslation } from 'next-i18next';
 import { productPlaceholder } from '@assets/placeholders';
+import defaultImage from '@assets/placeholders/product-placeholder.png';
 import dynamic from 'next/dynamic';
+import toman from '@assets/toman.svg';
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
 });
@@ -20,7 +22,7 @@ interface ProductProps {
 }
 function RenderPopupOrAddToCart({ data }: { data: Product }) {
   const { t } = useTranslation('common');
-  const { id, quantity, product_type } = data ?? {};
+  const { id, quantity, balance, product_type } = data ?? {};
   const { width } = useWindowSize();
   const { openModal } = useModalAction();
   const { isInCart, isInStock } = useCart();
@@ -29,7 +31,8 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   function handlePopupView() {
     openModal('PRODUCT_VIEW', data);
   }
-  if (Number(quantity) < 1 || outOfStock) {
+
+  if (Number(balance) < 1) {
     return (
       <span className="text-[11px] md:text-xs font-bold text-brand-light uppercase inline-block bg-brand-danger rounded-full px-2.5 pt-1 pb-[3px] mx-0.5 sm:mx-1">
         {t('text-out-stock')}
@@ -50,23 +53,25 @@ function RenderPopupOrAddToCart({ data }: { data: Product }) {
   return <AddToCart data={data} />;
 }
 const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
-  const { name, image, unit, product_type } = product ?? {};
+  const { name, image, unit, product_type, balance } = product ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
   const { price, basePrice, discount } = usePrice({
     amount: product?.sale_price ? product?.sale_price : product?.price,
     baseAmount: product?.price,
-    currencyCode: 'USD',
+    currencyCode: 'IRR',
   });
-  const { price: minPrice } = usePrice({
-    amount: product?.min_price ?? 0,
-    currencyCode: 'USD',
+  const { price: discountPriceValue } = usePrice({
+    amount: product?.price.discount ? product?.price.discount / 10 : 0,
+    currencyCode: 'IRR',
   });
-  const { price: maxPrice } = usePrice({
-    amount: product?.max_price ?? 0,
-    currencyCode: 'USD',
-  });
+  const discountPrice = `${discountPriceValue.replace('IRR', '').trim()}`;
 
+  const { price: originalPriceValue } = usePrice({
+    amount: product?.price.original ? product?.price.original / 10 : 0,
+    currencyCode: 'IRR',
+  });
+  const originalPrice = `${originalPriceValue.replace('IRR', '').trim()}`;
   function handlePopupView() {
     openModal('PRODUCT_VIEW', product);
   }
@@ -82,7 +87,13 @@ const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
       <div className="relative shrink-0">
         <div className="flex overflow-hidden max-w-[230px] mx-auto transition duration-200 ease-in-out transform group-hover:scale-105 relative">
           <Image
-            src={image?.thumbnail ?? productPlaceholder}
+            src={
+              image
+                ? image?.cover
+                  ? `http://localhost:5000${image?.cover}`
+                  : defaultImage
+                : productPlaceholder
+            }
             alt={name || 'Product Image'}
             width={230}
             height={200}
@@ -101,23 +112,77 @@ const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col px-3 md:px-4 lg:px-[18px] pb-5 lg:pb-6 lg:pt-1.5 h-full">
-        <div className="mb-1 lg:mb-1.5 -mx-1">
-          <span className="inline-block mx-1 text-sm font-semibold sm:text-15px lg:text-base text-brand-dark">
-            <h1>test</h1>
-            {product_type === 'variable' ? `${minPrice} - ${maxPrice}` : price}
-          </span>
-          {basePrice && (
-            <del className="mx-1 text-sm text-brand-dark text-opacity-70">
-              {basePrice}
-            </del>
-          )}
-        </div>
-        <h2 className="text-brand-dark text-13px sm:text-sm lg:text-15px leading-5 sm:leading-6 mb-1.5">
+        <h2
+          className="text-brand-dark text-13px sm:text-sm lg:text-15px leading-5 sm:leading-6 mb-1.5 h-12"
+          dir="rtl"
+        >
           {name}
         </h2>
-        <div className="mt-auto text-13px sm:text-sm">{unit}</div>
+        <div className="mb-1 lg:mb-1.5 -mx-1">
+          <div dir="rtl" className="mb-4">
+            {Number(balance) < 10 ? (
+              <p className="text-xs text-red-500">
+                تنها {balance} عدد در انبار باقی مانده
+              </p>
+            ) : (
+              <p className="text-xs text-red-500 invisible">
+                تنها {balance} عدد در انبار باقی مانده
+              </p>
+            )}
+          </div>
+          <div className="inline-block mx-1 text-sm font-semibold sm:text-15px lg:text-base text-brand-dark w-full px-1">
+            {' '}
+            <span
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <img
+                  style={{ marginRight: '8px' }}
+                  width="16px"
+                  height="16px"
+                  src={toman.src}
+                  alt="toman"
+                />
+                {discountPrice ? discountPrice : originalPrice}
+              </div>
+              {discountPrice && (
+                <span
+                  style={{
+                    marginLeft: '8px',
+                    backgroundColor: 'red',
+                    borderRadius: '15px',
+                    paddingLeft: '6px',
+                    fontSize: '2vh',
+                    color: 'white',
+                    paddingRight: '6px',
+                  }}
+                >
+                  {Math.round(
+                    ((product.price.original - product.price.discount) /
+                      product.price.original) *
+                      100
+                  )}
+                  %
+                </span>
+              )}
+            </span>
+          </div>
+          {discountPrice && (
+            <div className="mx-1 text-sm text-brand-dark text-opacity-70">
+              <del dir="rtl">
+                {discountPrice
+                  ? originalPrice.replace(' تومان', '')
+                  : originalPrice}
+              </del>
+            </div>
+          )}
+        </div>
+        {/* <div className="mt-auto text-13px sm:text-sm">{unit}</div> */}
       </div>
     </article>
   );

@@ -12,6 +12,9 @@ module.exports = withPWA({
     runtimeCaching,
   },
   i18n,
+  images: {
+    domains: ['localhost'],
+  },
   ...(process.env.NODE_ENV === 'production' && {
     typescript: {
       ignoreBuildErrors: true,

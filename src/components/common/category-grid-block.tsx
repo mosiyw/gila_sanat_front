@@ -54,11 +54,18 @@ const CategoryGridBlock: React.FC<CategoriesProps> = ({
   return (
     <div className={className}>
       <SectionHeader
-        sectionHeading="text-what-food-you-love"
-        sectionSubHeading="text-favorite-different-categories"
+        sectionHeading="محبوب ترین برند های فروشگاه"
+        sectionSubHeading="!محصول مورد نظر خود را بر اساس برند جستحو کنید"
         headingPosition="center"
       />
-      <div className="block 2xl:flex justify-center flex-wrap 3xl:-mx-3.5">
+      <div
+        className="block 2xl:flex justify-center flex-wrap 3xl:-mx-3.5"
+        dir="rtl"
+        style={{
+          justifyContent: 'center',
+          textAlign: 'center',
+        }}
+      >
         {error ? (
           <Alert message={error?.message} className="mb-14 3xl:mx-3.5" />
         ) : width! < 1536 ? (

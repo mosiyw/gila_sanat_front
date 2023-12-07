@@ -1,6 +1,6 @@
 import { QueryOptionsType, Product } from '@framework/types';
-import { API_ENDPOINTS } from '@framework/utils/api-endpoints';
-import http from '@framework/utils/http';
+import { API_ENDPOINTS } from '@framework/utils/api-endpoints2';
+import http2 from '@framework/utils/http2';
 import shuffle from 'lodash/shuffle';
 import { useInfiniteQuery } from 'react-query';
 type PaginatedProduct = {
@@ -9,7 +9,7 @@ type PaginatedProduct = {
 };
 const fetchProducts = async ({ queryKey }: any) => {
   const [_key, _params] = queryKey;
-  const { data } = await http.get(API_ENDPOINTS.PRODUCTS);
+  const { data } = await http2.get(API_ENDPOINTS.PRODUCTS);
   return {
     data: shuffle(data) as Product[],
     paginatorInfo: {

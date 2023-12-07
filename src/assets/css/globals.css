@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'IranYekan';
+  src: url('../../../public/fonts/BYekan.ttf') format('tff'),
+    url('../../../public/fonts/BYekan.eot') format('embedded-opentype'),
+    url('../../../public/fonts/BYekan.woff') format('woff'),
+    url('../../../public/fonts/BYekan.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Write your own custom base styles here */
 @layer base {
   html {
@@ -9,7 +20,8 @@
   }
   html,
   body {
-    @apply antialiased bg-brand-light text-brand-muted font-body;
+    @apply antialiased bg-brand-light text-brand-muted;
+    font-family: 'IranYekan', sans-serif;
   }
   p {
     @apply mb-5;
