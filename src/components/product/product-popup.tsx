@@ -60,20 +60,32 @@ export default function ProductPopup() {
   const { closeModal } = useModalAction();
   const router = useRouter();
   const { addItemToCart, isInCart, getItemFromCart, isInStock } = useCart();
-  const [selectedQuantity, setSelectedQuantity] = useState(1);
+  const [selectedbalance, setSelectedbalance] = useState(1);
   const [attributes, setAttributes] = useState<{ [key: string]: string }>({});
   const [addToCartLoader, setAddToCartLoader] = useState<boolean>(false);
   const [favorite, setFavorite] = useState<boolean>(false);
+  const [discountPrices, setDiscountPrice] = useState();
+  const [originalPrices, setOriginalPrice] = useState();
   const [addToWishlistLoader, setAddToWishlistLoader] =
     useState<boolean>(false);
   const [shareButtonStatus, setShareButtonStatus] = useState<boolean>(false);
   const { price, basePrice, discount } = usePrice({
-    amount: data.sale_price ? data.sale_price : data.price,
-    baseAmount: data.price,
-    currencyCode: 'USD',
+    amount: data?.sale_price ? data?.sale_price : data?.price,
+    baseAmount: data?.price,
+    currencyCode: 'IRR',
+  });
+  const { price: discountPriceValue } = usePrice({
+    amount: discountPrices ? discountPrices / 10 : 0,
+    currencyCode: 'IRR',
+  });
+  const discountPrice = `${discountPriceValue.replace('IRR', '').trim()}`;
+
+  const { price: originalPriceValue } = usePrice({
+    amount: originalPrices ? originalPrices / 10 : 0,
+    currencyCode: 'IRR',
   });
   const variations = getVariations(data.variations);
-  const { slug, image, name, unit, description, gallery, tag, quantity } = data;
+  const { slug, image, name, unit, description, gallery, tag, balance } = data;
   const productUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}${ROUTES.PRODUCT}/${slug}`;
   const handleChange = () => {
     setShareButtonStatus(!shareButtonStatus);
@@ -102,7 +114,7 @@ export default function ProductPopup() {
     setTimeout(() => {
       setAddToCartLoader(false);
     }, 1500);
-    addItemToCart(item, selectedQuantity);
+    addItemToCart(item, selectedbalance);
     toast(t('text-added-bag'), {
       progressClassName: 'fancy-progress-bar',
       position: width! > 768 ? 'bottom-right' : 'top-right',
@@ -137,7 +149,15 @@ export default function ProductPopup() {
     router.push(`${ROUTES.PRODUCT}/${slug}`);
   }
 
-  useEffect(() => setSelectedQuantity(1), [data.id]);
+  useEffect(() => {
+    if (data?.price?.discount) {
+      setDiscountPrice(data?.price?.discount);
+    }
+    if (data?.price?.original) {
+      setOriginalPrice(data?.price?.original);
+    }
+    setSelectedbalance(1);
+  }, [data.id]);
 
   return (
     <div className="md:w-[600px] lg:w-[940px] xl:w-[1180px] 2xl:w-[1360px] mx-auto p-1 lg:p-0 xl:p-3 bg-brand-light rounded-md">
@@ -151,7 +171,13 @@ export default function ProductPopup() {
               ) : (
                 <div className="flex items-center justify-center w-auto">
                   <Image
-                    src={image?.original ?? productGalleryPlaceholder}
+                    src={
+                      image
+                        ? image?.cover
+                          ? `http://localhost:5000${image?.cover}`
+                          : defaultImage
+                        : productPlaceholder
+                    }
                     alt={name!}
                     width={650}
                     height={590}
@@ -167,20 +193,30 @@ export default function ProductPopup() {
                   onClick={navigateToProductPage}
                   role="button"
                 >
-                  <h2 className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl hover:text-brand">
+                  <h2
+                    className="text-lg font-medium transition-colors duration-300 text-brand-dark md:text-xl xl:text-2xl hover:text-brand text-center"
+                    dir="rtl"
+                  >
                     {name}
                   </h2>
                 </div>
-                {unit && isEmpty(variations) ? (
-                  <div className="text-sm font-medium md:text-15px">{unit}</div>
-                ) : (
-                  <VariationPrice
-                    selectedVariation={selectedVariation}
-                    minPrice={data.min_price}
-                    maxPrice={data.max_price}
-                  />
-                )}
 
+                <div className="pt-6 xl:pt-8 text-right aspect-[2]" dir="rtl">
+                  <Heading className="mb-3 lg:mb-3.5">
+                    {t('text-product-details')} :
+                  </Heading>
+                  <Text variant="small">
+                    {description.split(' ').slice(0, 40).join(' ')}
+                    {'...'}
+                    <span
+                      onClick={navigateToProductPage}
+                      role="button"
+                      className="text-brand ltr:ml-0.5 rtl:mr-0.5"
+                    >
+                      {t('text-read-more')}
+                    </span>
+                  </Text>
+                </div>
                 {isEmpty(variations) && (
                   <div className="flex items-center mt-5">
                     <div className="text-brand-dark font-bold text-base md:text-xl xl:text-[22px]">
@@ -211,15 +247,15 @@ export default function ProductPopup() {
                 );
               })}
 
-              <div className="pb-2">
-                {/* check that item isInCart and place the available quantity or the item quantity */}
+              <div className="pb-2 text-right" dir="rtl">
+                {/* check that item isInCart and place the available balance or the item balance */}
                 {isEmpty(variations) && (
                   <>
-                    {Number(quantity) > 0 || !outOfStock ? (
+                    {Number(balance) > 0 || !outOfStock ? (
                       <span className="text-sm font-medium text-yellow">
                         {t('text-only') +
                           ' ' +
-                          quantity +
+                          balance +
                           ' ' +
                           t('text-left-item')}
                       </span>
@@ -234,12 +270,12 @@ export default function ProductPopup() {
                 {!isEmpty(selectedVariation) && (
                   <span className="text-sm font-medium text-yellow">
                     {selectedVariation?.is_disable ||
-                    selectedVariation.quantity === 0
+                    selectedVariation.balance === 0
                       ? t('text-out-stock')
                       : `${
                           t('text-only') +
                           ' ' +
-                          selectedVariation.quantity +
+                          selectedVariation.balance +
                           ' ' +
                           t('text-left-item')
                         }`}
@@ -250,16 +286,16 @@ export default function ProductPopup() {
               <div className="pt-1.5 lg:pt-3 xl:pt-4 space-y-2.5 md:space-y-3.5">
                 <Counter
                   variant="single"
-                  value={selectedQuantity}
-                  onIncrement={() => setSelectedQuantity((prev) => prev + 1)}
+                  value={selectedbalance}
+                  onIncrement={() => setSelectedbalance((prev) => prev + 1)}
                   onDecrement={() =>
-                    setSelectedQuantity((prev) => (prev !== 1 ? prev - 1 : 1))
+                    setSelectedbalance((prev) => (prev !== 1 ? prev - 1 : 1))
                   }
                   disabled={
                     isInCart(item.id)
-                      ? getItemFromCart(item.id).quantity + selectedQuantity >=
+                      ? getItemFromCart(item.id).balance + selectedbalance >=
                         Number(item.stock)
-                      : selectedQuantity >= Number(item.stock)
+                      : selectedbalance >= Number(item.stock)
                   }
                 />
                 <Button
@@ -323,23 +359,6 @@ export default function ProductPopup() {
                   ))}
                 </ul>
               )}
-
-              <div className="pt-6 xl:pt-8">
-                <Heading className="mb-3 lg:mb-3.5">
-                  {t('text-product-details')}:
-                </Heading>
-                <Text variant="small">
-                  {description.split(' ').slice(0, 40).join(' ')}
-                  {'...'}
-                  <span
-                    onClick={navigateToProductPage}
-                    role="button"
-                    className="text-brand ltr:ml-0.5 rtl:mr-0.5"
-                  >
-                    {t('text-read-more')}
-                  </span>
-                </Text>
-              </div>
             </div>
           </div>
         </div>

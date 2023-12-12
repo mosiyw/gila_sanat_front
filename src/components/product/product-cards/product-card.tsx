@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import cn from 'classnames';
 import Image from '@components/ui/image';
 import usePrice from '@framework/product/use-price';
@@ -12,6 +13,7 @@ import { productPlaceholder } from '@assets/placeholders';
 import defaultImage from '@assets/placeholders/product-placeholder.png';
 import dynamic from 'next/dynamic';
 import toman from '@assets/toman.svg';
+import { useEffect } from 'react';
 const AddToCart = dynamic(() => import('@components/product/add-to-cart'), {
   ssr: false,
 });
@@ -56,19 +58,30 @@ const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
   const { name, image, unit, product_type, balance } = product ?? {};
   const { openModal } = useModalAction();
   const { t } = useTranslation('common');
+  const [discountPrices, setDiscountPrice] = useState();
+  const [originalPrices, setOriginalPrice] = useState();
+
+  useEffect(() => {
+    if (product?.price?.discount) {
+      setDiscountPrice(product?.price?.discount);
+    }
+    if (product?.price?.original) {
+      setOriginalPrice(product?.price?.original);
+    }
+  }, [product]);
   const { price, basePrice, discount } = usePrice({
     amount: product?.sale_price ? product?.sale_price : product?.price,
     baseAmount: product?.price,
     currencyCode: 'IRR',
   });
   const { price: discountPriceValue } = usePrice({
-    amount: product?.price.discount ? product?.price.discount / 10 : 0,
+    amount: discountPrices ? discountPrices / 10 : 0,
     currencyCode: 'IRR',
   });
   const discountPrice = `${discountPriceValue.replace('IRR', '').trim()}`;
 
   const { price: originalPriceValue } = usePrice({
-    amount: product?.price.original ? product?.price.original / 10 : 0,
+    amount: originalPrices ? originalPrices / 10 : 0,
     currencyCode: 'IRR',
   });
   const originalPrice = `${originalPriceValue.replace('IRR', '').trim()}`;
@@ -163,9 +176,7 @@ const ProductCard: React.FC<ProductProps> = ({ product, className }) => {
                   }}
                 >
                   {Math.round(
-                    ((product.price.original - product.price.discount) /
-                      product.price.original) *
-                      100
+                    ((originalPrices - discountPrices) / originalPrices) * 100
                   )}
                   %
                 </span>

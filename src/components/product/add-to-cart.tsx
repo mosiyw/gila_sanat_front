@@ -31,6 +31,7 @@ const AddToCart = ({ data, variation, disabled }: Props) => {
   };
   const outOfStock = isInCart(item?.id) && !isInStock(item.id);
   const iconSize = width! > 480 ? '19' : '17';
+
   return !isInCart(item?.id) ? (
     <button
       className="flex items-center justify-center w-8 h-8 text-4xl rounded-full bg-brand lg:w-10 lg:h-10 text-brand-light focus:outline-none"

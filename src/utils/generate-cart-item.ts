@@ -40,8 +40,8 @@ export function generateCartItem(item: Item, variation: Variation) {
     name,
     slug,
     unit,
-    image: image?.thumbnail,
-    stock: quantity,
+    image: item.image.cover,
+    stock: item.balance,
     price: sale_price ? sale_price : price,
   };
 }

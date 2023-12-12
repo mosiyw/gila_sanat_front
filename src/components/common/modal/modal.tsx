@@ -40,15 +40,6 @@ const Modal: FC<ModalProps> = ({
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className={cn({
-              'h-screen align-middle inline-block': variant === 'center',
-              'h-screen align-bottom': variant === 'bottom',
-            })}
-            aria-hidden="true"
-          >
-            &#8203;
-          </span>
 
           {variant === 'bottom' ? (
             <Transition.Child
