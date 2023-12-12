@@ -11,11 +11,12 @@ type CartItemProps = {
 };
 
 const CartItem: React.FC<CartItemProps> = ({ item }) => {
+  const { image } = item;
   const { isInStock, addItemToCart, removeItemFromCart, clearItemFromCart } =
     useCart();
   const { price: totalPrice } = usePrice({
     amount: item?.itemTotal,
-    currencyCode: 'USD',
+    currencyCode: 'IRR',
   });
   const outOfStock = !isInStock(item.id);
   return (
@@ -25,7 +26,11 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
     >
       <div className="relative flex rounded overflow-hidden shrink-0 cursor-pointer w-[90px] md:w-[100px] h-[90px] md:h-[100px]">
         <Image
-          src={item?.image ?? '/assets/placeholder/cart-item.svg'}
+          src={
+            image
+              ? `http://localhost:5000${image}`
+              : '/assets/placeholder/cart-item.svg'
+          }
           width={100}
           height={100}
           loading="eager"

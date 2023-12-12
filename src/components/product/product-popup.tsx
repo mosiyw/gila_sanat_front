@@ -22,6 +22,7 @@ import RelatedProductFeed from '@components/product/feeds/related-product-feed';
 import SocialShareBox from '@components/ui/social-share-box';
 import { IoIosHeart, IoIosHeartEmpty } from 'react-icons/io';
 import { toast } from 'react-toastify';
+import toman from '@assets/toman.svg';
 import useWindowSize from '@utils/use-window-size';
 import {
   useModalAction,
@@ -84,6 +85,9 @@ export default function ProductPopup() {
     amount: originalPrices ? originalPrices / 10 : 0,
     currencyCode: 'IRR',
   });
+
+  const originalPrice = `${originalPriceValue.replace('IRR', '').trim()}`;
+
   const variations = getVariations(data.variations);
   const { slug, image, name, unit, description, gallery, tag, balance } = data;
   const productUrl = `${process.env.NEXT_PUBLIC_WEBSITE_URL}${ROUTES.PRODUCT}/${slug}`;
@@ -219,16 +223,28 @@ export default function ProductPopup() {
                 </div>
                 {isEmpty(variations) && (
                   <div className="flex items-center mt-5">
+                    <img
+                      style={{ marginRight: '8px' }}
+                      width="16px"
+                      height="16px"
+                      src={toman.src}
+                      alt="toman"
+                    />
                     <div className="text-brand-dark font-bold text-base md:text-xl xl:text-[22px]">
-                      {price}
+                      {discountPrice ? discountPrice : originalPrice}
                     </div>
-                    {discount && (
+                    {discountPrices && (
                       <>
                         <del className="text-sm text-opacity-50 md:text-15px ltr:pl-3 rtl:pr-3 text-brand-dark ">
-                          {basePrice}
+                          {originalPrice}
                         </del>
                         <span className="inline-block rounded font-bold text-xs md:text-sm bg-brand-tree bg-opacity-20 text-brand-tree uppercase px-2 py-1 ltr:ml-2.5 rtl:mr-2.5">
-                          {discount} {t('text-off')}
+                          {Math.round(
+                            ((originalPrices - discountPrices) /
+                              originalPrices) *
+                              100
+                          )}
+                          %{t('text-off')}
                         </span>
                       </>
                     )}
