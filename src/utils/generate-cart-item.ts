@@ -4,7 +4,7 @@ interface Item {
   name: string;
   slug: string;
   image: {
-    thumbnail: string;
+    cover: string;
     [key: string]: unknown;
   };
   price: number;
@@ -21,17 +21,17 @@ interface Variation {
   [key: string]: unknown;
 }
 export function generateCartItem(item: Item, variation: Variation) {
-  const { id, name, slug, image, price, sale_price, quantity, unit } = item;
+  const { _id, name, slug, image, price, quantity } = item;
+  const id = _id;
   if (!isEmpty(variation)) {
     return {
       id: `${id}.${variation.id}`,
       productId: id,
       name: `${name} - ${variation.title}`,
       slug,
-      unit,
       stock: variation.quantity,
       price: variation.sale_price ? variation.sale_price : variation.price,
-      image: image?.thumbnail,
+      image: image?.cover,
       variationId: variation.id,
     };
   }
@@ -39,9 +39,8 @@ export function generateCartItem(item: Item, variation: Variation) {
     id,
     name,
     slug,
-    unit,
     image: item.image.cover,
     stock: item.balance,
-    price: sale_price ? sale_price : price,
+    price: price,
   };
 }

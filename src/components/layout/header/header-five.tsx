@@ -57,6 +57,7 @@ const Header: React.FC = () => {
         'header-five sticky-header sticky -top-[1px] z-20 lg:relative w-full h-16 lg:h-auto',
         displayMobileSearch && 'active-mobile-search'
       )}
+      dir="rtl"
     >
       <div className="z-20 w-screen transition-all duration-200 ease-in-out innerSticky lg:w-full body-font bg-brand-light">
         <Search
@@ -81,21 +82,20 @@ const Header: React.FC = () => {
           </div>
           {/* End of Category */}
 
-          <Logo className="logo -mt-1.5 md:-mt-1 md:mx-auto ltr:pl-3 rtl:pr-3 md:ltr:pl-0 md:rtl:pr-0 lg:mx-0" />
-          {/* End of logo */}
+          <div className="flex items-center justify-start w-full">
+            <Logo className="logo -mt-1.5 md:-mt-1 md:mx-auto ltr:pl-3 rtl:pr-3 md:ltr:pl-0 md:rtl:pr-0 lg:mx-0" />
+            {/* End of logo */}
 
-          <Search
-            searchId="top-bar-search"
-            className="hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8"
-            variant="fill"
-          />
-          {/* End of search */}
+            <Search
+              searchId="top-bar-search"
+              className="hidden lg:flex lg:max-w-[650px] 2xl:max-w-[800px] lg:mx-8"
+              variant="fill"
+            />
+            {/* End of search */}
+          </div>
 
           <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
             <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5">
-              <div className="xl:mx-3.5 mx-2.5">
-                <LanguageSwitcher />
-              </div>
               <CartButton className="hidden lg:flex xl:mx-3.5 mx-2.5" />
               <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
                 <UserIcon className="text-brand-dark text-opacity-40" />
