@@ -65,7 +65,7 @@ const Header: React.FC = () => {
           className="top-bar-search hidden lg:max-w-[600px] absolute z-30 px-4 md:px-6 top-1"
         />
         {/* End of Mobile search */}
-        <Container className="flex items-center justify-between h-16 py-3 border-b top-bar lg:h-auto border-border-base">
+        <Container className="sticky top-0 bg-brand-light z-[5] flex items-center justify-between h-16 py-3 border-b top-bar lg:h-auto border-border-base">
           <div className="relative shrink-0 lg:hidden">
             <button
               className="border border-border-base rounded-md focus:outline-none shrink-0 text-sm lg:text-15px font-medium text-brand-dark px-2.5 md:px-3 lg:px-[18px] py-2 md:py-2.5 lg:py-3 flex items-center transition-all hover:border-border-four"
@@ -83,8 +83,10 @@ const Header: React.FC = () => {
           {/* End of Category */}
 
           <div className="flex items-center justify-start w-full">
-            <Logo className="logo -mt-1.5 md:-mt-1 md:mx-auto ltr:pl-3 rtl:pr-3 md:ltr:pl-0 md:rtl:pr-0 lg:mx-0" />
-            {/* End of logo */}
+            <div className="w-1/6 flex justify-center">
+              <Logo className="logo -mt-1.5 md:-mt-1 md:mx-auto ltr:pl-3 rtl:pr-3 md:ltr:pl-0 md:rtl:pr-0 lg:mx-0" />
+              {/* End of logo */}
+            </div>
 
             <Search
               searchId="top-bar-search"
@@ -94,9 +96,8 @@ const Header: React.FC = () => {
             {/* End of search */}
           </div>
 
-          <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0">
-            <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5">
-              <CartButton className="hidden lg:flex xl:mx-3.5 mx-2.5" />
+          <div className="ltr:ml-auto rtl:mr-auto md:ltr:ml-0 md:rtl:mr-0 w-1/4 text-center flex items-center justify-center">
+            <div className="flex shrink-0 -mx-2.5 xl:-mx-3.5 ">
               <div className="items-center hidden lg:flex shrink-0 xl:mx-3.5 mx-2.5">
                 <UserIcon className="text-brand-dark text-opacity-40" />
                 <AuthMenu
@@ -110,19 +111,18 @@ const Header: React.FC = () => {
                   {t('text-account')}
                 </AuthMenu>
               </div>
+              <CartButton className="hidden lg:flex xl:mx-3.5 mx-2.5" />
             </div>
           </div>
           {/* End of auth & lang */}
         </Container>
         {/* End of top part */}
 
-        <div className="hidden navbar lg:block bg-brand-light">
+        <div className=" bg-brand-light">
           <Container className="h-20 flex justify-between items-center py-2.5">
-            <Logo className="w-0 transition-all duration-200 ease-in-out opacity-0 navbar-logo" />
-            {/* End of logo */}
-            <div className="relative categories-header-button ltr:mr-8 rtl:ml-8 shrink-0">
+            <div className="relative  rtl:ml-8 shrink-0 w-1/7">
               <button
-                className="border border-border-base rounded-md focus:outline-none shrink-0 text-15px font-medium text-brand-dark px-[18px] py-3 flex items-center transition-all hover:border-border-four"
+                className="border border-border-base rounded-md focus:outline-none shrink-0 text-15px font-medium text-brand-dark px-[18px] py-3 flex items-center transition-all hover:border-border-four "
                 onClick={handleCategoryMenu}
               >
                 <FiMenu className="text-2xl ltr:mr-3 rtl:ml-3" />

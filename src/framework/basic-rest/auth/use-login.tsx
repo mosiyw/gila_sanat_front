@@ -7,11 +7,23 @@ export interface LoginInputType {
   password: string;
   remember_me: boolean;
 }
+
 async function login(input: LoginInputType) {
-  return {
-    token: `${input.email}.${input.remember_me}`.split('').reverse().join(''),
-  };
+  const response = await fetch('http://localhost:5000/api/auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(input),
+  });
+
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+
+  return response.json();
 }
+
 export const useLoginMutation = () => {
   const { authorize, closeModal } = useUI();
   return useMutation((input: LoginInputType) => login(input), {

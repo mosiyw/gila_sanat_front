@@ -56,21 +56,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ isPopup = true, className }) => {
   return (
     <div
       className={cn(
-        'w-full md:w-[720px] lg:w-[920px] xl:w-[1000px] 2xl:w-[1200px] relative',
+        'w-full md:w-[720px] lg:w-[70vw] xl:w-[45vw] 2xl:w-[45vw] relative',
         className
       )}
     >
       {isPopup === true && <CloseButton onClick={closeModal} />}
 
       <div className="flex mx-auto overflow-hidden rounded-lg bg-brand-light">
-        <div className="md:w-1/2 lg:w-[55%] xl:w-[60%] registration hidden md:block relative">
-          <Image
-            src="/assets/images/login.png"
-            alt="signin Image"
-            layout="fill"
-          />
-        </div>
-        <div className="w-full md:w-1/2 lg:w-[45%] xl:w-[40%] py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
+        <div className="w-full py-6 sm:py-10 px-4 sm:px-8 md:px-6 lg:px-8 xl:px-12 rounded-md flex flex-col justify-center">
           <div className="mb-6 text-center">
             <div onClick={closeModal}>
               <Logo />
@@ -151,7 +144,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ isPopup = true, className }) => {
               </div>
             </div>
           </form>
-          <div className="relative flex flex-col items-center justify-center text-sm">
+          {/* <div className="relative flex flex-col items-center justify-center text-sm">
             <span className="mt-6 text-sm text-brand-dark opacity-70">
               {t('common:text-or')}
             </span>
@@ -176,7 +169,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ isPopup = true, className }) => {
             >
               <FaLinkedinIn className="w-4 h-4 text-opacity-50 transition-all text-brand-dark group-hover:text-brand" />
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
