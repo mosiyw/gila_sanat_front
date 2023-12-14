@@ -387,7 +387,7 @@ input:checked + .slider:before {
 /* Address box */
 
 .address__box input[type='radio']:checked ~ label {
-  border-color: #02b290;
+  border-color: #fbae17;
 }
 
 @media (min-width: 1024px) {
@@ -416,7 +416,7 @@ input:checked + .slider:before {
   position: absolute;
   left: 2px;
   width: 3px;
-  background: #02b290;
+  background: #fbae17;
   @apply h-6 top-3 2xl:top-2.5;
 }
 .registration > div {

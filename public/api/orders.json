@@ -10,7 +10,7 @@
             "id": 1,
             "name": "Delivered",
             "serial": 4,
-            "color": "#02B290",
+            "color": "#FBAE17",
             "created_at": "Thu Jun 17 2021 22:12:50 GMT+0600",
             "updated_at": "Thu Jun 17 2021 22:12:35 GMT+0600"
         },
@@ -171,7 +171,7 @@
             "id": 1,
             "name": "Delivered",
             "serial": 4,
-            "color": "#02B290",
+            "color": "#FBAE17",
             "created_at": "Thu Jun 17 2021 22:12:50 GMT+0600",
             "updated_at": "Thu Jun 17 2021 22:12:35 GMT+0600"
         },

@@ -28,24 +28,22 @@ const HeroBannerCard: FC<BannerProps> = ({
     <div
       className={cn(
         'w-full bg-fill-thumbnail bg-no-repeat bg-cover bg-center flex items-center',
-        {
-          'min-h-[420px] md:min-h-[460px] lg:min-h-[500px] xl:min-h-[550px]':
-            variant === 'slider',
-        },
         className
       )}
       style={{
         backgroundImage: `url('${selectedImage.url}')`,
+        minHeight: '20vh',
       }}
     >
       <div
         className={cn(
-          'mx-auto h-full flex flex-col text-center px-6 xl:max-w-[750px] 2xl:max-w-[850px]',
+          'mx-auto flex flex-col text-center px-6 xl:max-w-[750px] 2xl:max-w-[850px]',
           {
             'max-w-[480px] md:max-w-[550px]': variant === 'default' || 'slider',
             'max-w-[480px] md:max-w-[650px]': variant === 'medium',
           }
         )}
+        style={{ minHeight: '20vh' }}
       >
         <div className="text-center">
           <h2
@@ -61,21 +59,9 @@ const HeroBannerCard: FC<BannerProps> = ({
               }
             )}
           >
-            {t(title)}
+            {/* {t(title)} */}
+            image slider place
           </h2>
-          <p
-            className={cn(
-              'text-base md:text-[17px] xl:text-lg leading-7 md:leading-8 xl:leading-[1.92em] xl:px-16',
-              {
-                'text-brand-dark text-opacity-80 2xl:px-32':
-                  variant === 'default',
-                'text-brand-light 2xl:px-32': variant === 'slider',
-                '2xl:px-24': variant === 'medium',
-              }
-            )}
-          >
-            {t(description)}
-          </p>
           {banner.btnText && (
             <Link
               href={banner.btnUrl}
@@ -83,11 +69,6 @@ const HeroBannerCard: FC<BannerProps> = ({
             >
               {t(banner.btnText)}
             </Link>
-          )}
-          {banner.searchBox && (
-            <div className="hidden lg:flex max-w-[620px] mx-auto md:pt-1 lg:pt-3">
-              <HeroSearchBox />
-            </div>
           )}
         </div>
       </div>

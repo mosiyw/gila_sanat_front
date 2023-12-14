@@ -37,7 +37,7 @@ const data = [
     id: 3,
     icon: (
       <ChatIcon
-        color="#02B290"
+        color="#FBAE17"
         className="transform scale-75 xl:scale-90 3xl:scale-100"
       />
     ),
