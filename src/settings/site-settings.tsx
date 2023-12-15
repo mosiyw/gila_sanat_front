@@ -26,17 +26,7 @@ export const siteSettings = {
   site_header: {
     menu: [
       {
-        id: 4,
-        path: '/search/',
-        label: 'menu-search',
-      },
-      {
-        id: 5,
-        path: '/shops/',
-        label: 'menu-shops',
-      },
-      {
-        id: 6,
+        id: 1,
         path: '/',
         label: 'menu-pages',
         subMenu: [
@@ -63,16 +53,6 @@ export const siteSettings = {
             ],
           },
           {
-            id: 2,
-            path: '/faq',
-            label: 'menu-faq',
-          },
-          {
-            id: 3,
-            path: '/about-us',
-            label: 'menu-about-us',
-          },
-          {
             id: 4,
             path: '/privacy',
             label: 'menu-privacy-policy',
@@ -81,11 +61,6 @@ export const siteSettings = {
             id: 5,
             path: '/terms',
             label: 'menu-terms-condition',
-          },
-          {
-            id: 6,
-            path: '/contact-us',
-            label: 'menu-contact-us',
           },
           {
             id: 7,
@@ -100,9 +75,29 @@ export const siteSettings = {
         ],
       },
       {
-        id: 6,
+        id: 2,
+        path: '/contact-us',
+        label: 'menu-contact-us',
+      },
+      {
+        id: 3,
+        path: '/faq',
+        label: 'menu-faq',
+      },
+      {
+        id: 4,
+        path: '/about-us',
+        label: 'menu-about-us',
+      },
+      {
+        id: 5,
         path: '/cooperation-in-sales/',
         label: 'menu-cooperation',
+      },
+      {
+        id: 6,
+        path: '/',
+        label: 'menu-cooperation-discount',
       },
     ],
     languageMenu: [
