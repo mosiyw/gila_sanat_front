@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-document-import-in-page */
 /**
  * @type {import('next').NextConfig}
  */
