@@ -4,6 +4,8 @@ import Link from '@components/ui/link';
 import useWindowSize from '@utils/use-window-size';
 import HeroSearchBox from '@components/hero/hero-banner-search';
 import { useTranslation } from 'next-i18next';
+import SimpleImageSlider from 'react-simple-image-slider';
+import banner2 from '../../../public/assets/images/banner/banner-9.png';
 
 interface BannerProps {
   banner?: any;
@@ -24,54 +26,20 @@ const HeroBannerCard: FC<BannerProps> = ({
   const { width } = useWindowSize();
   const { title, description, image } = banner;
   const selectedImage = getImage(width!, image);
+
+  const images = [{ url: `${selectedImage.url}` }, { url: `${banner2.src}` }];
   return (
-    <div
-      className={cn(
-        'w-full bg-fill-thumbnail bg-no-repeat bg-cover bg-center flex items-center',
-        className
-      )}
-      style={{
-        backgroundImage: `url('${selectedImage.url}')`,
-        minHeight: '20vh',
-      }}
-    >
-      <div
-        className={cn(
-          'mx-auto flex flex-col text-center px-6 xl:max-w-[750px] 2xl:max-w-[850px]',
-          {
-            'max-w-[480px] md:max-w-[550px]': variant === 'default' || 'slider',
-            'max-w-[480px] md:max-w-[650px]': variant === 'medium',
-          }
-        )}
-        style={{ minHeight: '20vh' }}
-      >
-        <div className="text-center">
-          <h2
-            className={cn(
-              'text-3xl md:text-4xl font-manrope font-extrabold leading-snug md:leading-tight xl:leading-[1.3em] mb-3 md:mb-4 xl:mb-3 -mt-2 xl:-mt-3 2xl:-mt-4',
-              {
-                'text-brand-tree-dark xl:text-5xl 2xl:text-[55px]':
-                  variant === 'default',
-                'text-brand-tree-dark xl:text-[40px] 2xl:text-5xl 2xl:mb-4 2xl:pb-0.5':
-                  variant === 'medium',
-                'text-brand-light xl:text-5xl 2xl:text-[55px]':
-                  variant === 'slider',
-              }
-            )}
-          >
-            {/* {t(title)} */}
-            image slider place
-          </h2>
-          {banner.btnText && (
-            <Link
-              href={banner.btnUrl}
-              className="h-[45px] mt-7 md:mt-8 text-sm inline-flex items-center justify-center transition duration-300 rounded px-6 py-2 font-semibold bg-brand-light text-brand-dark hover:text-brand-light hover:bg-brand"
-            >
-              {t(banner.btnText)}
-            </Link>
-          )}
-        </div>
-      </div>
+    <div className="mb-5">
+      <SimpleImageSlider
+        width={'100%'}
+        height={'45vh'}
+        images={images}
+        slideDuration={1.5}
+        autoPlay={true}
+        autoPlayDelay={5}
+        showBullets={true}
+        showNavs={true}
+      />
     </div>
   );
 };
