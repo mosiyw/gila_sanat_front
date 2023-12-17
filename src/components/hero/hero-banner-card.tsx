@@ -5,7 +5,7 @@ import useWindowSize from '@utils/use-window-size';
 import HeroSearchBox from '@components/hero/hero-banner-search';
 import { useTranslation } from 'next-i18next';
 import SimpleImageSlider from 'react-simple-image-slider';
-import banner2 from '../../../public/assets/images/banner/banner-9.png';
+import banner2 from '../../../public/assets/images/banner/Ronix-banner.jpg';
 
 interface BannerProps {
   banner?: any;

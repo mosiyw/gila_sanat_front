@@ -63,9 +63,6 @@ export default function Cart() {
         <div className="flex pb-5 md:pb-7">
           <div className="ltr:pr-3 rtl:pl-3">
             <Heading className="mb-2.5">{t('text-sub-total')}:</Heading>
-            <Text className="leading-6">
-              {t('text-cart-final-price-discount')}
-            </Text>
           </div>
           <div className="shrink-0 font-semibold text-base md:text-lg text-brand-dark -mt-0.5 min-w-[80px] ltr:text-right rtl:text-left">
             {cartTotal}

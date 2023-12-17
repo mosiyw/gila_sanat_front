@@ -75,11 +75,17 @@ export function inStock(items: Item[], id: Item['id']) {
 export const calculateItemTotals = (items: Item[]) =>
   items.map((item) => ({
     ...item,
-    itemTotal: item.price * item.quantity!,
+    itemTotal:
+      ((item.price.discount ?? item.price.original) * item.quantity!) / 10,
   }));
 
 export const calculateTotal = (items: Item[]) =>
-  items.reduce((total, item) => total + item.quantity! * item.price, 0);
+  items.reduce(
+    (total, item) =>
+      total +
+      (item.quantity! * (item.price.discount ?? item.price.original)) / 10,
+    0
+  );
 
 export const calculateTotalItems = (items: Item[]) =>
   items.reduce((sum, item) => sum + item.quantity!, 0);
